@@ -42,6 +42,11 @@ deploy_portainer:
   variables:
     COMPOSE_FILE: "compose-portainer.yaml"
 
+deploy_registry:
+  <<: *compose_deploy_template
+  variables:
+    COMPOSE_FILE: "compose-registry.yaml"
+
 reload_nginx_conf:
   stage: reload
   script:

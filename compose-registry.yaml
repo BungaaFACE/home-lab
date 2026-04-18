@@ -1,0 +1,30 @@
+services:
+  registry-ui:
+    image: joxit/docker-registry-ui:latest
+    container_name: registry-ui
+    restart: always
+    ports:
+      - 9444:80
+    environment:
+      - REGISTRY_URL=http://registry:5000
+      - SINGLE_REGISTRY=true
+      - DELETE_IMAGES=true
+      - SHOW_CONTENT_DIGEST=true
+      - SHOW_CATALOG_NB_TAGS=true
+      - TAGLIST_PAGE_SIZE=100
+      - CATALOG_ELEMENTS_LIMIT=1000
+
+  registry:
+    image: registry:latest
+    container_name: registry-server
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      REGISTRY_HTTP_SECRET: pupupu
+      REGISTRY_HTTP_CORS_ENABLED: "true"
+      REGISTRY_HTTP_CORS_ALLOWEDMETHODS: "GET,HEAD,POST,PUT,DELETE,OPTIONS"
+      REGISTRY_HTTP_CORS_ALLOWEDORIGINS: "['*']"
+      REGISTRY_STORAGE_DELETE_ENABLED: 'true'
+    volumes:
+      - /home/bungaaface/container-data/registry:/var/lib/registry
