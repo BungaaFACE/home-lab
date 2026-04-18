@@ -1,0 +1,50 @@
+stages:
+  - init
+  - build
+  - deploy
+  - reload
+
+variables:
+  DEPLOY_PATH: "/home/vladi/Desktop/docker-composes"
+
+
+.deploy_compose_file: &deploy_compose_file
+  - mkdir -p "${DEPLOY_PATH}"
+  - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" down || true
+  - cp "${CI_PROJECT_DIR}/${COMPOSE_FILE}" "${DEPLOY_PATH}/${COMPOSE_FILE}"
+  - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" pull
+  - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" up -d
+
+.compose_deploy_template: &compose_deploy_template
+  stage: deploy
+  script:
+    - *deploy_compose_file
+  when: manual
+
+
+init_send_docker_script:
+  stage: init
+  script:
+    - cp "${CI_PROJECT_DIR}/init_docker_install.sh" "${DEPLOY_PATH}/init_docker_install.sh"
+    - chmod +x "${DEPLOY_PATH}/init_docker_install.sh"
+    - echo "Execution command"
+    - echo "sudo ${DEPLOY_PATH}/init_docker_install.sh"
+  rules:
+    - when: manual
+
+deploy_nginx:
+  <<: *compose_deploy_template
+  variables:
+    COMPOSE_FILE: "compose-nginx.yaml"
+
+deploy_portainer:
+  <<: *compose_deploy_template
+  variables:
+    COMPOSE_FILE: "compose-portainer.yaml"
+
+reload_nginx_conf:
+  stage: reload
+  script:
+    - docker exec "nginx" nginx -s reload
+  rules:
+    - when: manual

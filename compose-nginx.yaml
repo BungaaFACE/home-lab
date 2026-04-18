@@ -1,0 +1,27 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - shared_net
+    volumes:
+      - shared_static:/var/www/static:ro
+      - shared_ssl:/etc/nginx/ssl:ro
+      - shared_sites:/etc/nginx/conf.d:ro
+      - /dev/null:/etc/nginx/conf.d/default.conf
+    restart: always
+
+networks:
+  shared_net:
+    name: shared_net
+
+volumes:
+  shared_static:
+    name: shared_static
+  shared_ssl:
+    name: shared_ssl
+  shared_sites:
+    name: shared_sites
