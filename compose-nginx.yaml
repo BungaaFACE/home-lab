@@ -10,9 +10,19 @@ services:
     volumes:
       - shared_static:/var/www/static:ro
       - shared_ssl:/etc/nginx/ssl:ro
-      - shared_sites:/etc/nginx/conf.d:ro
+      - ${SITES_PATH}:/etc/nginx/conf.d/manual:ro
+      - shared_sites:/etc/nginx/conf.d/shared:ro
       - /dev/null:/etc/nginx/conf.d/default.conf
+    configs:
+      - source: manual_loader
+        target: /etc/nginx/conf.d/include_dirs.conf
     restart: always
+
+configs:
+  manual_loader:
+    content: |
+      include /etc/nginx/conf.d/manual/*.conf;
+      include /etc/nginx/conf.d/shared/*.conf;
 
 networks:
   shared_net:

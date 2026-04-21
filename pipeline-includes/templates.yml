@@ -1,0 +1,25 @@
+
+.envsubs_compose_file: &envsubs_compose_file
+  - envsubst < ${COMPOSE_FILE}.template > ${COMPOSE_FILE}
+
+.envsubs_nginx_file: &envsubs_nginx_file
+  - envsubst < ${NGINX_FILE}.template > ${NGINX_FILE}
+
+.deploy_compose_file: &deploy_compose_file
+  - mkdir -p "${DEPLOY_PATH}"
+  - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" down || true
+  - cp "${CI_PROJECT_DIR}/${COMPOSE_FILE}" "${DEPLOY_PATH}/${COMPOSE_FILE}"
+  - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" pull
+  - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" up -d
+
+.compose_deploy_template: &compose_deploy_template
+  stage: deploy
+  script:
+    - *deploy_compose_file
+  when: manual
+
+.compose_deploy_template: &compose_deploy_template
+  stage: deploy
+  script:
+    - *deploy_compose_file
+  when: manual

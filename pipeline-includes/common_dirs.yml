@@ -1,0 +1,4 @@
+variables:
+  DEPLOY_PATH: "/home/bungaaface/Desktop/docker-composes"
+  DATA_PATH: "/home/bungaaface/Desktop/container-data"
+  SITES_PATH: "/home/bungaaface/Desktop/sites"

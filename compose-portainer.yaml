@@ -10,4 +10,4 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /home/bungaaface/container-data/portainer:/data
+      - ${DATA_PATH}/portainer:/data
