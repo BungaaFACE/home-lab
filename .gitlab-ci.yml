@@ -1,5 +1,5 @@
 include:
-  - local: '/pipeline-includes/templates.yml'
+  - local: 'pipeline-includes/templates.yml'
 
 stages:
   - init

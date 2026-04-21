@@ -1,9 +1,9 @@
 
 .envsubs_compose_file: &envsubs_compose_file
-  - envsubst < ${COMPOSE_FILE}.template > ${COMPOSE_FILE}
+  - test -f "${COMPOSE_FILE}.template" && envsubst < "${COMPOSE_FILE}.template" > "${COMPOSE_FILE}" || { echo "::warn::Файл ${COMPOSE_FILE}.template не найден"; exit 1; }
 
 .envsubs_nginx_file: &envsubs_nginx_file
-  - envsubst < ${NGINX_FILE}.template > ${NGINX_FILE}
+  - test -f "${NGINX_FILE}.template" && envsubst < "${NGINX_FILE}.template" > "${NGINX_FILE}" || { echo "::warn::Файл ${NGINX_FILE}.template не найден"; exit 1; }
 
 .deploy_compose_file: &deploy_compose_file
   - mkdir -p "${DEPLOY_PATH}"
