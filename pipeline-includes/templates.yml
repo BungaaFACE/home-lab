@@ -1,25 +1,16 @@
-
-.envsubs_compose_file: &envsubs_compose_file
-  - test -f "${COMPOSE_FILE}.template" && envsubst < "${COMPOSE_FILE}.template" > "${COMPOSE_FILE}" || { echo "::warn::Файл ${COMPOSE_FILE}.template не найден"; exit 1; }
-
-.envsubs_nginx_file: &envsubs_nginx_file
-  - test -f "${NGINX_FILE}.template" && envsubst < "${NGINX_FILE}.template" > "${NGINX_FILE}" || { echo "::warn::Файл ${NGINX_FILE}.template не найден"; exit 1; }
-
-.deploy_compose_file: &deploy_compose_file
-  - mkdir -p "${DEPLOY_PATH}"
-  - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" down || true
-  - cp "${CI_PROJECT_DIR}/${COMPOSE_FILE}" "${DEPLOY_PATH}/${COMPOSE_FILE}"
-  - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" pull
-  - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" up -d
-
-.compose_deploy_template: &compose_deploy_template
+.compose_deploy_template:
   stage: deploy
   script:
-    - *deploy_compose_file
+    - test -f "${COMPOSE_FILE}.template" && envsubst < "${COMPOSE_FILE}.template" > "${COMPOSE_FILE}" || { echo "::warn::Файл ${COMPOSE_FILE}.template не найден"; exit 1; }
+    - mkdir -p "${DEPLOY_PATH}"
+    - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" down || true
+    - cp "${CI_PROJECT_DIR}/${COMPOSE_FILE}" "${DEPLOY_PATH}/${COMPOSE_FILE}"
+    - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" pull
+    - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" up -d
   when: manual
 
-.compose_deploy_template: &compose_deploy_template
-  stage: deploy
-  script:
-    - *deploy_compose_file
+.envsubst_nginx_template:
+  stage: build
+  before_script:
+    - test -f "${NGINX_FILE}.template" && envsubst < "${NGINX_FILE}.template" > "${NGINX_FILE}" || { echo "::warn::Файл ${NGINX_FILE}.template не найден"; exit 1; }
   when: manual

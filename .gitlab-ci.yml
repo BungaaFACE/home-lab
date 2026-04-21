@@ -1,11 +1,12 @@
 include:
   - local: 'pipeline-includes/templates.yml'
+  - local: 'pipeline-includes/common_dirs.yml'
 
 stages:
   - init
   - build
   - deploy
-  - reload
+  - misc
 
 init_send_docker_script:
   stage: init
@@ -18,22 +19,22 @@ init_send_docker_script:
     - when: manual
 
 deploy_nginx:
-  <<: *compose_deploy_template
+  extends: .compose_deploy_template
   variables:
     COMPOSE_FILE: "compose-nginx.yaml"
 
 deploy_portainer:
-  <<: *compose_deploy_template
+  extends: .compose_deploy_template
   variables:
     COMPOSE_FILE: "compose-portainer.yaml"
 
 deploy_registry:
-  <<: *compose_deploy_template
+  extends: .compose_deploy_template
   variables:
     COMPOSE_FILE: "compose-registry.yaml"
 
 reload_nginx_conf:
-  stage: reload
+  stage: misc
   script:
     - docker exec "nginx" nginx -s reload
   rules:
