@@ -13,10 +13,10 @@ init_send_docker_script:
   tags:
     - shell
   script:
-    - cp "${CI_PROJECT_DIR}/init_docker_install.sh" "${DEPLOY_PATH}/init_docker_install.sh"
-    - chmod +x "${DEPLOY_PATH}/init_docker_install.sh"
+    - cp "${CI_PROJECT_DIR}/init_docker_install.sh" "${DESKTOP_PATH}/init_docker_install.sh"
+    - chmod +x "${DESKTOP_PATH}/init_docker_install.sh"
     - echo "Execution command"
-    - echo "sudo ${DEPLOY_PATH}/init_docker_install.sh"
+    - echo "sudo ${DESKTOP_PATH}/init_docker_install.sh"
   rules:
     - when: manual
       allow_failure: true

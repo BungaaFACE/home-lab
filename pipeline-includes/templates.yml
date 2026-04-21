@@ -4,11 +4,11 @@
   stage: deploy
   script:
     - test -f "${COMPOSE_FILE}.template" && envsubst < "${COMPOSE_FILE}.template" > "${COMPOSE_FILE}" || { echo "::warn::Файл ${COMPOSE_FILE}.template не найден"; exit 1; }
-    - mkdir -p "${DEPLOY_PATH}"
-    - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" down || true
-    - cp "${CI_PROJECT_DIR}/${COMPOSE_FILE}" "${DEPLOY_PATH}/${COMPOSE_FILE}"
-    - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" pull
-    - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" up -d
+    - mkdir -p "${COMPOSE_PATH}"
+    - docker-compose -f "${COMPOSE_PATH}/${COMPOSE_FILE}" down || true
+    - cp "${CI_PROJECT_DIR}/${COMPOSE_FILE}" "${COMPOSE_PATH}/${COMPOSE_FILE}"
+    - docker-compose -f "${COMPOSE_PATH}/${COMPOSE_FILE}" pull
+    - docker-compose -f "${COMPOSE_PATH}/${COMPOSE_FILE}" up -d
   when: manual
   allow_failure: true
 
