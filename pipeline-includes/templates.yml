@@ -3,7 +3,7 @@
     - shell
   stage: deploy
   script:
-    - test -f "${COMPOSE_FILE}.template" && envsubst < "${COMPOSE_FILE}.template" > "${COMPOSE_FILE}" || { echo "::warn::Файл ${COMPOSE_FILE}.template не найден"; exit 1; }
+    - test -f "${COMPOSE_FILE}.template" && envsubst < "${COMPOSE_FILE}.template" > "${COMPOSE_FILE}" || echo "::warn::Файл ${COMPOSE_FILE}.template не найден"
     - mkdir -p "${COMPOSE_PATH}"
     - docker-compose -f "${COMPOSE_PATH}/${COMPOSE_FILE}" down || true
     - cp "${CI_PROJECT_DIR}/${COMPOSE_FILE}" "${COMPOSE_PATH}/${COMPOSE_FILE}"
@@ -17,6 +17,6 @@
     - shell
   stage: build
   before_script:
-    - test -f "${NGINX_FILE}.template" && envsubst < "${NGINX_FILE}.template" > "${NGINX_FILE}" || { echo "::warn::Файл ${NGINX_FILE}.template не найден"; exit 1; }
+    - test -f "${NGINX_FILE}.template" && envsubst < "${NGINX_FILE}.template" > "${NGINX_FILE}" || echo "::warn::Файл ${NGINX_FILE}.template не найден"
   when: manual
   allow_failure: true

@@ -4,3 +4,6 @@ curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/s
 sudo bash script.deb.sh
 sudo apt update
 sudo apt install gitlab-runner
+# Desktop folder access
+setfacl -m u:gitlab-runner:rx /home/bungaaface
+setfacl -m u:gitlab-runner:rwx /home/bungaaface/Desktop
