@@ -1,4 +1,6 @@
 .compose_deploy_template:
+  tags:
+    - shell
   stage: deploy
   script:
     - test -f "${COMPOSE_FILE}.template" && envsubst < "${COMPOSE_FILE}.template" > "${COMPOSE_FILE}" || { echo "::warn::Файл ${COMPOSE_FILE}.template не найден"; exit 1; }
@@ -10,6 +12,8 @@
   when: manual
 
 .envsubst_nginx_template:
+  tags:
+    - shell
   stage: build
   before_script:
     - test -f "${NGINX_FILE}.template" && envsubst < "${NGINX_FILE}.template" > "${NGINX_FILE}" || { echo "::warn::Файл ${NGINX_FILE}.template не найден"; exit 1; }

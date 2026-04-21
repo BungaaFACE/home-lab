@@ -10,6 +10,8 @@ stages:
 
 init_send_docker_script:
   stage: init
+  tags:
+    - shell
   script:
     - cp "${CI_PROJECT_DIR}/init_docker_install.sh" "${DEPLOY_PATH}/init_docker_install.sh"
     - chmod +x "${DEPLOY_PATH}/init_docker_install.sh"
