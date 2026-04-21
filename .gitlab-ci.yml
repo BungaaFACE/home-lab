@@ -19,6 +19,7 @@ init_send_docker_script:
     - echo "sudo ${DEPLOY_PATH}/init_docker_install.sh"
   rules:
     - when: manual
+      allow_failure: true
 
 deploy_nginx:
   extends: .compose_deploy_template
@@ -41,3 +42,4 @@ reload_nginx_conf:
     - docker exec "nginx" nginx -s reload
   rules:
     - when: manual
+      allow_failure: true

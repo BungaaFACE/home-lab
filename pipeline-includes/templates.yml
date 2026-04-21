@@ -10,6 +10,7 @@
     - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" pull
     - docker-compose -f "${DEPLOY_PATH}/${COMPOSE_FILE}" up -d
   when: manual
+  allow_failure: true
 
 .envsubst_nginx_template:
   tags:
@@ -18,3 +19,4 @@
   before_script:
     - test -f "${NGINX_FILE}.template" && envsubst < "${NGINX_FILE}.template" > "${NGINX_FILE}" || { echo "::warn::Файл ${NGINX_FILE}.template не найден"; exit 1; }
   when: manual
+  allow_failure: true
