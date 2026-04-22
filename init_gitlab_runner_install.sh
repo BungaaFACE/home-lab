@@ -7,3 +7,4 @@ sudo apt install gitlab-runner
 # Desktop folder access
 setfacl -m u:gitlab-runner:rx /home/bungaaface
 setfacl -m u:gitlab-runner:rwx /home/bungaaface/Desktop
+sudo usermod -aG gitlab-runner bungaaface
