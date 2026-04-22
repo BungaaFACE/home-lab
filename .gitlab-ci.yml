@@ -30,11 +30,35 @@ deploy_portainer:
   extends: .compose_deploy_template
   variables:
     COMPOSE_FILE: "compose-portainer.yaml"
+  after_script:
+    - |
+      cat << EOF > ${DESKTOP_PATH}/Portainer.desktop
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Name=Portainer
+      Exec=xdg-open https://localhost:9443
+      Icon=edit-copy
+      Terminal=false
+      EOF
+      chmod +x Portainer.desktop
 
 deploy_registry:
   extends: .compose_deploy_template
   variables:
     COMPOSE_FILE: "compose-registry.yaml"
+  after_script:
+    - |
+      cat << EOF > ${DESKTOP_PATH}/Registry-UI.desktop
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Name=Registry-UI
+      Exec=xdg-open https://localhost:9444
+      Icon=preferences-other
+      Terminal=false
+      EOF
+      chmod +x Registry-UI.desktop
 
 reload_nginx_conf:
   stage: misc
