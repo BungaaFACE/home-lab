@@ -16,3 +16,10 @@
   stage: build
   before_script:
     - test -f "${NGINX_FILE_DIR}${NGINX_FILE}.template" && envsubst < "${NGINX_FILE_DIR}${NGINX_FILE}.template" > "${NGINX_FILE}" || echo "::warn::Файл ${NGINX_FILE}.template не найден"
+
+.triggered_template:
+  rules:
+    - if: $TRIGGER_ACTION == $CI_JOB_NAME
+    - if: $TRIGGER_ACTION
+      when: never
+    - when: manual
