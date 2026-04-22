@@ -49,7 +49,6 @@ deploy_registry:
     COMPOSE_FILE: "compose-registry.yaml"
   after_script:
     - |
-      echo "${DESKTOP_PATH}/Registry-UI.desktop"
       cat << EOF > ${DESKTOP_PATH}/Registry-UI.desktop
       [Desktop Entry]
       Version=1.0
