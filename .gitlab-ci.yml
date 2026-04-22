@@ -1,6 +1,7 @@
 include:
   - local: 'pipeline-includes/templates.yml'
   - local: 'pipeline-includes/common_dirs.yml'
+  - local: 'pipeline-includes/trigger_projects.yml'
 
 stages:
   - init
@@ -10,6 +11,7 @@ stages:
 
 init_send_docker_script:
   stage: init
+  needs: []
   tags:
     - shell
   script:
@@ -19,7 +21,6 @@ init_send_docker_script:
     - echo "sudo ${DESKTOP_PATH}/init_docker_install.sh"
   rules:
     - when: manual
-      allow_failure: true
 
 deploy_nginx:
   extends: .compose_deploy_template
@@ -28,6 +29,7 @@ deploy_nginx:
 
 deploy_portainer:
   extends: .compose_deploy_template
+  needs: []
   variables:
     COMPOSE_FILE: "compose-portainer.yaml"
   after_script:
@@ -42,9 +44,12 @@ deploy_portainer:
       Terminal=false
       EOF
       chmod +x ${DESKTOP_PATH}/Portainer.desktop
+  rules:
+    - when: manual
 
 deploy_registry:
   extends: .compose_deploy_template
+  needs: []
   variables:
     COMPOSE_FILE: "compose-registry.yaml"
   after_script:
@@ -59,11 +64,13 @@ deploy_registry:
       Terminal=false
       EOF
       chmod +x ${DESKTOP_PATH}/Registry-UI.desktop
+  rules:
+    - when: manual
 
 reload_nginx_conf:
   stage: misc
+  needs: []
   script:
     - docker exec "nginx" nginx -s reload
   rules:
     - when: manual
-      allow_failure: true

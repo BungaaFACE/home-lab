@@ -1,0 +1,33 @@
+.trigger_template:
+  variables:
+    TRIGGER_ACTION: "$CI_JOB_NAME"
+  rules:
+    - when: manual
+
+#########################################################
+# REPO-COPPIER https://gitlab.com/BungaaFACE/repo-coppier
+#########################################################
+build_repo_coppier:
+  extends: .trigger_template
+  stage: build
+  trigger:
+    project: BungaaFACE/repo-coppier
+    branch: main
+    strategy: depend
+
+deploy_repo_coppier:
+  extends: .trigger_template
+  stage: deploy
+  trigger:
+    project: BungaaFACE/repo-coppier
+    branch: main
+    strategy: depend
+
+sync_repo_coppier:
+  extends: .trigger_template
+  stage: misc
+  trigger:
+    project: BungaaFACE/repo-coppier
+    branch: main
+    strategy: depend
+#########################################################
