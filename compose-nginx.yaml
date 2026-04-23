@@ -1,28 +1,21 @@
 services:
   nginx:
-    image: nginx:latest
+    image: jonasal/nginx-certbot:latest
     container_name: nginx
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - CERTBOT_EMAIL=${USER_EMAIL}
+      - RENEWAL_INTERVAL=27d
     networks:
       - shared_net
     volumes:
       - shared_static:/var/www/static:ro
-      - shared_ssl:/etc/nginx/ssl:ro
-      - ${SITES_PATH}:/etc/nginx/conf.d/manual:ro
-      - shared_sites:/etc/nginx/conf.d/shared:ro
+      - ${SITES_PATH}:/etc/nginx/user_conf.d:ro
+      - ${SSL_PATH}:/etc/letsencrypt
       - /dev/null:/etc/nginx/conf.d/default.conf
-    configs:
-      - source: manual_loader
-        target: /etc/nginx/conf.d/include_dirs.conf
     restart: always
-
-configs:
-  manual_loader:
-    content: |
-      include /etc/nginx/conf.d/manual/*.conf;
-      include /etc/nginx/conf.d/shared/*.conf;
 
 networks:
   shared_net:
@@ -31,7 +24,3 @@ networks:
 volumes:
   shared_static:
     name: shared_static
-  shared_ssl:
-    name: shared_ssl
-  shared_sites:
-    name: shared_sites

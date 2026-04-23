@@ -1,6 +1,6 @@
 include:
   - local: 'pipeline-includes/templates.yml'
-  - local: 'pipeline-includes/common_dirs.yml'
+  - local: 'pipeline-includes/variables.yml'
   - local: 'pipeline-includes/trigger_projects.yml'
 
 stages:
@@ -15,6 +15,8 @@ init_send_docker_script:
   tags:
     - shell
   script:
+    - mkdir -p ${COMPOSE_PATH}
+    - mkdir -p ${DATA_PATH}
     - cp "${CI_PROJECT_DIR}/init_docker_install.sh" "${DESKTOP_PATH}/init_docker_install.sh"
     - chmod +x "${DESKTOP_PATH}/init_docker_install.sh"
     - echo "Execution command"
@@ -24,6 +26,9 @@ init_send_docker_script:
 
 deploy_nginx:
   extends: .compose_deploy_template
+  before_script:
+    - mkdir -p ${SSL_PATH}
+    - mkdir -p ${SITES_PATH}
   variables:
     COMPOSE_FILE: "compose-nginx.yaml"
 
@@ -71,6 +76,6 @@ reload_nginx_conf:
   stage: misc
   needs: []
   script:
-    - docker exec "nginx" nginx -s reload
+    - docker kill --signal=HUP nginx
   rules:
     - when: manual

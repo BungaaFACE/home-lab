@@ -10,12 +10,13 @@
     - docker compose -f "${COMPOSE_PATH}/${COMPOSE_FILE}" pull
     - docker compose -f "${COMPOSE_PATH}/${COMPOSE_FILE}" up -d
 
-.envsubst_nginx_template:
+.nginx_site_deploy_template:
   tags:
     - shell
-  stage: build
-  before_script:
+  after_script:
     - test -f "${NGINX_FILE_DIR}${NGINX_FILE}.template" && envsubst < "${NGINX_FILE_DIR}${NGINX_FILE}.template" > "${NGINX_FILE}" || echo "::warn::Файл ${NGINX_FILE}.template не найден"
+    - cp "${NGINX_FILE_DIR}${NGINX_FILE}" "${SITES_PATH}/${NGINX_FILE}"
+    - docker exec "nginx" nginx -s reload
 
 .triggered_template:
   rules:
