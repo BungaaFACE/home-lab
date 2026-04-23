@@ -32,3 +32,39 @@ sync_repo_coppier:
     branch: main
     strategy: depend
 #########################################################
+
+#########################################################
+# BUNGAACORD https://gitlab.com/BungaaFACE/BungaaCord
+#########################################################
+build_bungaacord_backend:
+  extends: .trigger_template
+  stage: build
+  trigger:
+    project: BungaaFACE/BungaaCord
+    branch: main
+    strategy: depend
+
+build_bungaacord_frontend:
+  extends: .trigger_template
+  stage: build
+  trigger:
+    project: BungaaFACE/BungaaCord
+    branch: main
+    strategy: depend
+
+deploy_bungaacord_backend:
+  extends: .trigger_template
+  stage: deploy
+  trigger:
+    project: BungaaFACE/BungaaCord
+    branch: main
+    strategy: depend
+
+deploy_bungaacord_frontend:
+  extends: .trigger_template
+  stage: deploy
+  trigger:
+    project: BungaaFACE/BungaaCord
+    branch: main
+    strategy: depend
+#########################################################
