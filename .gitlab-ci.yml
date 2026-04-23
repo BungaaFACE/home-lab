@@ -32,6 +32,8 @@ deploy_nginx:
     - mkdir -p ${SITES_PATH}
   variables:
     COMPOSE_FILE: "compose-nginx.yaml"
+  rules:
+    - when: manual
 
 deploy_portainer:
   extends: .compose_deploy_template
