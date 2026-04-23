@@ -26,6 +26,7 @@ init_send_docker_script:
 
 deploy_nginx:
   extends: .compose_deploy_template
+  needs: []
   before_script:
     - mkdir -p ${SSL_PATH}
     - mkdir -p ${SITES_PATH}
