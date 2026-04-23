@@ -16,7 +16,7 @@
   after_script:
     - test -f "${NGINX_FILE_DIR}${NGINX_FILE}.template" && envsubst < "${NGINX_FILE_DIR}${NGINX_FILE}.template" > "${NGINX_FILE}" || echo "::warn::Файл ${NGINX_FILE}.template не найден"
     - cp "${NGINX_FILE_DIR}${NGINX_FILE}" "${SITES_PATH}/${NGINX_FILE}"
-    - docker exec "nginx" nginx -s reload
+    - docker kill --signal=HUP nginx
 
 .triggered_template:
   rules:
