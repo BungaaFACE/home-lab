@@ -30,6 +30,7 @@ deploy_nginx:
   before_script:
     - mkdir -p ${SSL_PATH}
     - mkdir -p ${SITES_PATH}
+    - mkdir -p ${STATIC_PATH}
   variables:
     COMPOSE_FILE: "compose-nginx.yaml"
   rules:

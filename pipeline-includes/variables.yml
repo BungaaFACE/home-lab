@@ -3,4 +3,5 @@ variables:
   COMPOSE_PATH: "${DESKTOP_PATH}/docker-composes"
   DATA_PATH: "${DESKTOP_PATH}/container-data"
   SITES_PATH: "${DESKTOP_PATH}/sites"
+  STATIC_PATH: "${DESKTOP_PATH}/static"
   SSL_PATH: "${DESKTOP_PATH}/ssl"
