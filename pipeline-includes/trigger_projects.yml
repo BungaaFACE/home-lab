@@ -68,3 +68,23 @@ deploy_bungaacord_frontend:
     branch: main
     strategy: depend
 #########################################################
+
+#########################################################
+# HH_BOOSTER https://gitlab.com/BungaaFACE/hh-booster
+#########################################################
+build_hh_booster:
+  extends: .trigger_template
+  stage: build
+  trigger:
+    project: BungaaFACE/hh-booster
+    branch: main
+    strategy: depend
+
+deploy_hh_booster:
+  extends: .trigger_template
+  stage: build
+  trigger:
+    project: BungaaFACE/hh-booster
+    branch: main
+    strategy: depend
+#########################################################
