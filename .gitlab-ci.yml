@@ -76,6 +76,14 @@ deploy_registry:
   rules:
     - when: manual
 
+deploy_ignite:
+  extends: .compose_deploy_template
+  needs: []
+  variables:
+    COMPOSE_FILE: "compose-ignite.yaml"
+  rules:
+    - when: manual
+
 reload_nginx_conf:
   stage: misc
   needs: []

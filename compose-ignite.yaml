@@ -1,0 +1,8 @@
+services:
+  ignite:
+    image: apacheignite/ignite:2.18.0
+    container_name: ignite
+    ports:
+      - "10800:10800"
+    restart: always
+
