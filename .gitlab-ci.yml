@@ -92,7 +92,7 @@ reload_nginx_conf:
   rules:
     - when: manual
 
-deploy_portainer:
+deploy_kafka:
   extends: .compose_deploy_template
   needs: []
   variables:
