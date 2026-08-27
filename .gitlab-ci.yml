@@ -104,7 +104,7 @@ deploy_kafka:
       Version=1.0
       Type=Application
       Name=Kafka-UI
-      Exec=xdg-open https://localhost:9445
+      Exec=xdg-open http://localhost:9445
       Icon=edit-copy
       Terminal=false
       EOF
