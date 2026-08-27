@@ -91,3 +91,23 @@ reload_nginx_conf:
     - docker kill --signal=HUP nginx
   rules:
     - when: manual
+
+deploy_portainer:
+  extends: .compose_deploy_template
+  needs: []
+  variables:
+    COMPOSE_FILE: "compose-kafka.yaml"
+  after_script:
+    - |
+      cat << EOF > ${DESKTOP_PATH}/Kafka-UI.desktop
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Name=Kafka-UI
+      Exec=xdg-open https://localhost:9445
+      Icon=edit-copy
+      Terminal=false
+      EOF
+      chmod +x ${DESKTOP_PATH}/Kafka-UI.desktop
+  rules:
+    - when: manual
