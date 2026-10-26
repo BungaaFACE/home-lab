@@ -15,7 +15,7 @@ services:
         hard: 262144
     volumes:
       - ${DATA_PATH}/clickhouse/clickhouse_data:/var/lib/clickhouse
-      - ${DATA_PATH}/clickhouse/init.sql:/docker-entrypoint-initdb.d/01-geo.sql:ro
+      - ${DATA_PATH}/clickhouse/scripts:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "clickhouse-client --user user --password password --query 'SELECT 1'"]
       interval: 5s
