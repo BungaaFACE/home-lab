@@ -84,6 +84,14 @@ deploy_ignite:
   rules:
     - when: manual
 
+deploy_clickhouse:
+  extends: .compose_deploy_template
+  needs: []
+  variables:
+    COMPOSE_FILE: "compose-clickhouse.yaml"
+  rules:
+    - when: manual
+
 reload_nginx_conf:
   stage: misc
   needs: []
